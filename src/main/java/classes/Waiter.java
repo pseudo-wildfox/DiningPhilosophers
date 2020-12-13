@@ -6,29 +6,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
-public class Waiter extends Thread  {
-    private  List<Philosopher> table = new ArrayList<>();
+public class Waiter {
+    private List<Philosopher> guests = new ArrayList<>();
 
 
     public void startDinner() {
         handOutCutlery();
 
-        for(Philosopher x : table) {
-            x.start();
+        for(Philosopher x : guests) {
+           x.start();
         }
+        guests.get(0).isAlive();
 
-        //System.out.println(table.get(0).isAlive());
+
     }
 
     private void handOutCutlery() {
-        for (int i = 0; i < table.size() - 1; i++) {
+        for (int i = 0; i < guests.size(); i++) {
             Fork fork = new Fork();
-            table.get(i).setLeftFork(fork);
-            table.get(i+1).setRightFork(fork);
+            guests.get(i).setLeftFork(fork);
+            guests.get((i+1) % guests.size()).setRightFork(fork);
         }
-        Fork fork = new Fork();
-        table.get(table.size() - 1).setLeftFork(fork);
-        table.get(0).setRightFork(fork);
     }
 
 }
