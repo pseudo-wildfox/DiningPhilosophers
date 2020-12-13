@@ -6,18 +6,22 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
+import java.io.File;
+import java.net.URL;
+
 /*
 10.Сравнение многопоточных алгоритмов решения задачи «Обедающие философы».
  */
 
 
 public class Main extends Application {
-    private static Waiter waiter = new Waiter();
-
+    private static Waiter waiter = new Waiter(Philosopher.philosophersFactory());
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        URL url = new File("src/main/resources/fxml/sample.fxml").toURI().toURL();
+        Parent root = FXMLLoader.load(url);
+
         primaryStage.setTitle("Dining philosophers");
         primaryStage.setScene(new Scene(root, 500, 500));
         primaryStage.show();
