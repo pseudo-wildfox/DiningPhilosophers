@@ -14,6 +14,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
+import static classes.Properties.TITLE;
+
 
 @Log4j
 @Data
@@ -25,8 +27,6 @@ public class JavaFXManager {
     }
     private Stage stage;
     private Group root;
-    public static final double BRIGHT = 1.0;
-    public static final double PALE = 0.4;
 
     private JavaFXManager() {
         this.stage = new Stage();
@@ -39,19 +39,15 @@ public class JavaFXManager {
     public void start(Stage primaryStage) {
         this.root = new Group(drawPhilosophers());
         root.getChildren().add(drawFurniture());
-        stage.setTitle("Dining philosophers");
-        //StackPane layout = new StackPane();
-        stage.setScene(new Scene(root, 500, 500));
+        stage.setTitle(TITLE);
+        stage.setScene(new Scene(root, Properties.SCENE_WIDTH, Properties.SCENE_HEIGHT));
         stage.show();
-
-
-        //Label label = new Label("My Label");
-        //root.getChildren().add(label);
     }
+
     private ImageView[] drawPhilosophers() {
-        ImageView[] imageViews = new ImageView[Philosopher.NAMES.length];
-        for (int i = 0; i< Philosopher.NAMES.length; i++) {
-            imageViews[i] = loadImageView(Philosopher.NAMES[i], 90, Philosopher.COORDINATES[i][0], Philosopher.COORDINATES[i][1]);
+        ImageView[] imageViews = new ImageView[Properties.NAMES.length];
+        for (int i = 0; i< Properties.NAMES.length; i++) {
+            imageViews[i] = loadImageView(Properties.NAMES[i], 90, Properties.COORDINATES[i][0], Properties.COORDINATES[i][1]);
         }
         return imageViews;
     }
@@ -75,7 +71,7 @@ public class JavaFXManager {
 
     private Circle drawFurniture() {
         Circle table = new Circle();
-        table.setFill(Color.AQUA);
+        table.setFill(Color.BURLYWOOD);
         table.setCenterX(250);
         table.setCenterY(250);
         table.setRadius(140);

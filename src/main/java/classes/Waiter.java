@@ -1,8 +1,6 @@
 package classes;
 
 import lombok.AllArgsConstructor;
-
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -14,11 +12,8 @@ public class Waiter extends Thread {
     public void run() {
         this.setName("Waiter");
         this.handOutCutlery();
-        //JavaFXManager.getInstance().getRoot().getChildren().filtered(e -> e.getId() == "Aristotle").get(0).setOpacity(1.0);
-        //JavaFXManager.getInstance().setOpacity("Descartes", 1.0);
 
         guests.forEach(Philosopher::start);
-
     }
 
     private void handOutCutlery() {
