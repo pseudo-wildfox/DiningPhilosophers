@@ -1,62 +1,62 @@
 package classes;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.extern.log4j.Log4j;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Random;
 import java.util.stream.Collectors;
 
+@Log4j
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class Philosopher extends Thread {
     //private String name;
-    private Fork rightFork;
-    private Fork leftFork;
+    private Fork firstFork;
+    private Fork secondFork;
 
-    private PhilosopherState CurrentState;
-    public static final String [] names = {"Aristotle", "Plato", "Epicurus", "Confucius", "Descartes"};
-    public static int[][] coordinates = {
+    Random random = new Random();
+
+    public static final String [] NAMES = {"Aristotle", "Plato", "Epicurus", "Confucius", "Descartes"};
+    public static final int[][] COORDINATES = {
             {200, 10},
             {390, 160},
             {300, 380},
             {100, 380},
             {0, 160}
     };
-    public Philosopher(String name) {
+    private Philosopher(String name) {
         super(name);
-        this.CurrentState = PhilosopherState.THINKING;
     }
 
 
     public static List<Philosopher> philosophersFactory() {
-        return Arrays.stream(names).map(name -> new Philosopher(name)).collect(Collectors.toList());
+        return Arrays.stream(NAMES).map(Philosopher::new).collect(Collectors.toList());
     }
 
     @Override
     public void run() {
-        System.out.println("Running " + getName());
+        log.info("Running " + getName());
         try {
-            synchronized (leftFork) {
-                long start = System.nanoTime();
-                System.out.println(getName() + " has taken left fork");
-
-                synchronized (rightFork) {
-                    System.out.println(getName() + " has taken right fork");
-
-                    System.out.println(getName() + " is EATING");
-                    CurrentState = PhilosopherState.EATING;
-
-                    Thread.sleep(4_000);
-                    System.out.println(getName() + " has put left fork");
+            while (this.isAlive()) {
+                Thread.sleep(random.nextInt(2000));
+                synchronized (firstFork) {
+                    log.info(getName() + " has taken left fork");
+                    synchronized (secondFork) {
+                        JavaFXManager.getInstance().setOpacity(this.getName(), JavaFXManager.BRIGHT);
+                        log.info(getName() + " has taken right fork");
+                        log.info(getName() + " is EATING");
+                        Thread.sleep(random.nextInt(5000));
+                        JavaFXManager.getInstance().setOpacity(this.getName(), JavaFXManager.PALE);
+                    }
+                    log.info(getName() + " has put left fork");
                 }
-                System.out.println(getName() + " has put left fork");
+                Thread.sleep(random.nextInt(4000));
             }
-        }catch (InterruptedException e) {
-            System.out.println("Thread " +  getName() + " interrupted.");
+        } catch (InterruptedException e) {
+            log.error("Error during " + getName(), e);
         }
-        System.out.println("Stopping " + getName());
-    }
-
-    public enum PhilosopherState {
-        THINKING, EATING;
     }
 }

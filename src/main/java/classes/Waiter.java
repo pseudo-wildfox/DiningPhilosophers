@@ -6,29 +6,31 @@ import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
-public class Waiter {
-    private List<Philosopher> guests = new ArrayList<>();
+public class Waiter extends Thread {
+    private List<Philosopher> guests;
 
 
-    public void startDinner() {
+    @Override
+    public void run() {
+        this.setName("Waiter");
         this.handOutCutlery();
+        //JavaFXManager.getInstance().getRoot().getChildren().filtered(e -> e.getId() == "Aristotle").get(0).setOpacity(1.0);
+        //JavaFXManager.getInstance().setOpacity("Descartes", 1.0);
 
-
-
-        for(Philosopher x : guests) {
-           x.start();
-        }
-        guests.get(0).isAlive();
-
+        guests.forEach(Philosopher::start);
 
     }
 
     private void handOutCutlery() {
         for (int i = 0; i < guests.size(); i++) {
-            Fork fork = new Fork();
-            guests.get(i).setLeftFork(fork);
-            guests.get((i+1) % guests.size()).setRightFork(fork);
+            Fork fork = new Fork(i);
+            guests.get(i).setFirstFork(fork);
+            guests.get((i+1) % guests.size()).setSecondFork(fork);
         }
+    }
+
+    private boolean isAnyEating() {
+        return guests.stream().anyMatch(Thread::isAlive);
     }
 
 }
