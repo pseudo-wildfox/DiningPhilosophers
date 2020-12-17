@@ -14,7 +14,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import static classes.Properties.TITLE;
+import static classes.Properties.*;
 
 
 @Log4j
@@ -38,21 +38,23 @@ public class JavaFXManager {
 
     public void start(Stage primaryStage) {
         this.root = new Group(drawPhilosophers());
-        root.getChildren().add(drawFurniture());
+        root.getChildren().add(drawTable());
         stage.setTitle(TITLE);
-        stage.setScene(new Scene(root, Properties.SCENE_WIDTH, Properties.SCENE_HEIGHT));
+        Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
+        scene.setFill(Color.WHEAT);
+        stage.setScene(scene);
         stage.show();
     }
 
     private ImageView[] drawPhilosophers() {
-        ImageView[] imageViews = new ImageView[Properties.PHILOSOPHERS_NAMES.length];
-        for (int i = 0; i< Properties.PHILOSOPHERS_NAMES.length; i++) {
-            imageViews[i] = loadImageView(Properties.PHILOSOPHERS_NAMES[i], 90, Properties.COORDINATES[i][0], Properties.COORDINATES[i][1]);
+        ImageView[] imageViews = new ImageView[PHILOSOPHERS_NAMES.length];
+        for (int i = 0; i< PHILOSOPHERS_NAMES.length; i++) {
+            imageViews[i] = loadImageView(PHILOSOPHERS_NAMES[i], 110, COORDINATES[i][0], COORDINATES[i][1], PALE);
         }
         return imageViews;
     }
 
-    private ImageView loadImageView(String name, int size, int x, int y) {
+    private ImageView loadImageView(String name, int size, int x, int y, double opacity) {
         try (InputStream stream = new FileInputStream("src\\main\\resources\\images\\" + name + ".png")) {
             ImageView imageView = new ImageView();
             imageView.setImage(new Image(stream));
@@ -61,7 +63,7 @@ public class JavaFXManager {
             imageView.setY(y);
             imageView.setFitWidth(size);
             imageView.setPreserveRatio(true);
-            imageView.setOpacity(0.4);
+            imageView.setOpacity(opacity);
             return imageView;
         } catch (IOException e) {
             log.error("Cant load image " + name + " from " + "src\\main\\resources\\images\\", e);
@@ -69,6 +71,12 @@ public class JavaFXManager {
         }
     }
 
+    private ImageView drawTable() {
+        return loadImageView("table", TABLE_SIZE, TABLE_X, TABLE_Y, BRIGHT);
+    }
+
+
+    @Deprecated
     private Circle drawFurniture() {
         Circle table = new Circle();
         table.setFill(Color.BURLYWOOD);

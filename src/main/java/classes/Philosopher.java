@@ -43,12 +43,12 @@ public class Philosopher extends Thread {
                         JavaFXManager.getInstance().setOpacity(this.getName(), Properties.BRIGHT);
                         log.info(getName() + " has taken right fork");
                         log.info(getName() + " is EATING");
-                        Thread.sleep(random.nextInt(Properties.TIME_TO_EAT));
+                        Thread.sleep(random.nextInt(Properties.TIME_TO_EAT) + 1000);
                         JavaFXManager.getInstance().setOpacity(this.getName(), Properties.PALE);
                     }
                     log.info(getName() + " has put left fork");
                 }
-                Thread.sleep(random.nextInt(Properties.TIME_TO_THINK));
+                Thread.sleep(random.nextInt(Properties.TIME_TO_THINK) + 1000);
             }
         } catch (InterruptedException e) {
             log.error("Error during " + getName(), e);

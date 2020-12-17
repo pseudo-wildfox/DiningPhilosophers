@@ -5,18 +5,21 @@ public class Properties {
     static final int SCENE_WIDTH = 500;
     static final int SCENE_HEIGHT = 500;
 
-    public static final String [] PHILOSOPHERS_NAMES = {"Aristotle", "Plato", "Epicurus", "Confucius", "Descartes"};
+    public static final String [] PHILOSOPHERS_NAMES = {"Aristotle", "Plato", "Epicurus", "Socrates", "Descartes"};
     public static final int[][] COORDINATES = {
             {200, 10},
             {390, 160},
-            {300, 380},
-            {100, 380},
+            {330, 350},
+            {70, 350},
             {0, 160}
     };
     public static final double BRIGHT = 1.0;
-    public static final double PALE = 0.4;
-    static final int TIME_TO_EAT = 5000;
+    public static final double PALE = 0.3;
+    static final int TIME_TO_EAT = 6000;
     static final int TIME_TO_THINK = 4000;
 
 
+    static final int TABLE_SIZE = 285;
+    static final int TABLE_X = 110;
+    static final int TABLE_Y = 120;
 }
