@@ -26,17 +26,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        //URL url = new File("src/main/resources/fxml/sample.fxml").toURI().toURL();
-        //Parent root = FXMLLoader.load(url);
 
-        ImageView[] imageViews = new ImageView[Philosopher.names.length];
-        for (int i=0; i< Philosopher.names.length; i++) {
-            imageViews[i] = loadImageView(Philosopher.names[i], 90, Philosopher.coordinates[i][0], Philosopher.coordinates[i][1]);
-            //root.getChildren().add();
-        }
-
-
-        root = new Group(imageViews);
+        root = new Group(drawPhilosophers());
         root.getChildren().add(drawFurniture());
         stage.setTitle("Dining philosophers");
         //StackPane layout = new StackPane();
@@ -46,17 +37,20 @@ public class Main extends Application {
         waiter.startDinner();
         Label label = new Label("My Label");
         root.getChildren().add(label);
+    }
 
+    private ImageView[] drawPhilosophers() throws IOException {
+        ImageView[] imageViews = new ImageView[Philosopher.names.length];
+        for (int i=0; i< Philosopher.names.length; i++) {
+            imageViews[i] = loadImageView(Philosopher.names[i], 90, Philosopher.coordinates[i][0], Philosopher.coordinates[i][1]);
+        }
+        return imageViews;
     }
 
     private ImageView loadImageView(String name, int size, int x, int y) throws IOException {
         try (InputStream stream = new FileInputStream("src\\main\\resources\\images\\" + name + ".png")) {
-            Image image = new Image(stream);
-            //Creating the image view
             ImageView imageView = new ImageView();
-            //Setting image to the image view
-            imageView.setImage(image);
-            //Setting the image view parameters
+            imageView.setImage(new Image(stream));
             imageView.setX(x);
             imageView.setY(y);
             imageView.setFitWidth(size);
@@ -68,8 +62,6 @@ public class Main extends Application {
     public Circle drawFurniture() {
         Circle circle = new Circle();
         circle.setFill(Color.AQUA);
-        //circle.setEffect(new GaussianBlur(Math.random() * 8 + 2));
-        //circle.setOpacity(Math.random());
         circle.setCenterX(250);
         circle.setCenterY(250);
         circle.setRadius(140);
