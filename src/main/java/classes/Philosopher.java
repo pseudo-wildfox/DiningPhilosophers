@@ -1,6 +1,5 @@
 package classes;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.Arrays;
@@ -57,4 +56,7 @@ public class Philosopher extends Thread {
         System.out.println("Stopping " + getName());
     }
 
+    public enum PhilosopherState {
+        THINKING, EATING;
+    }
 }
