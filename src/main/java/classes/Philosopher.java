@@ -24,7 +24,7 @@ public class Philosopher extends Thread {
     }
 
     public static List<Philosopher> philosophersFactory() {
-        return Arrays.stream(Properties.NAMES).map(Philosopher::new).collect(Collectors.toList());
+        return Arrays.stream(Properties.PHILOSOPHERS_NAMES).map(Philosopher::new).collect(Collectors.toList());
     }
 
     @Override

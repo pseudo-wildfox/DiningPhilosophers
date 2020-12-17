@@ -45,9 +45,9 @@ public class JavaFXManager {
     }
 
     private ImageView[] drawPhilosophers() {
-        ImageView[] imageViews = new ImageView[Properties.NAMES.length];
-        for (int i = 0; i< Properties.NAMES.length; i++) {
-            imageViews[i] = loadImageView(Properties.NAMES[i], 90, Properties.COORDINATES[i][0], Properties.COORDINATES[i][1]);
+        ImageView[] imageViews = new ImageView[Properties.PHILOSOPHERS_NAMES.length];
+        for (int i = 0; i< Properties.PHILOSOPHERS_NAMES.length; i++) {
+            imageViews[i] = loadImageView(Properties.PHILOSOPHERS_NAMES[i], 90, Properties.COORDINATES[i][0], Properties.COORDINATES[i][1]);
         }
         return imageViews;
     }
