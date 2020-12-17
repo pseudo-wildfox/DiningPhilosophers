@@ -11,7 +11,9 @@ public class Waiter {
 
 
     public void startDinner() {
-        handOutCutlery();
+        this.handOutCutlery();
+
+
 
         for(Philosopher x : guests) {
            x.start();

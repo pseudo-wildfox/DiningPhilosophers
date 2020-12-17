@@ -3,12 +3,14 @@ package classes;
 import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -35,12 +37,16 @@ public class Main extends Application {
 
 
         root = new Group(imageViews);
+        root.getChildren().add(drawFurniture());
         stage.setTitle("Dining philosophers");
         //StackPane layout = new StackPane();
         stage.setScene(new Scene(root, 500, 500));
         stage.show();
 
         waiter.startDinner();
+        Label label = new Label("My Label");
+        root.getChildren().add(label);
+
     }
 
     private ImageView loadImageView(String name, int size, int x, int y) throws IOException {
@@ -59,6 +65,17 @@ public class Main extends Application {
         }
     }
 
+    public Circle drawFurniture() {
+        Circle circle = new Circle();
+        circle.setFill(Color.AQUA);
+        //circle.setEffect(new GaussianBlur(Math.random() * 8 + 2));
+        //circle.setOpacity(Math.random());
+        circle.setCenterX(250);
+        circle.setCenterY(250);
+        circle.setRadius(140);
+
+        return circle;
+    }
 
     public static void main(String[] args) throws InterruptedException {
         launch(args);

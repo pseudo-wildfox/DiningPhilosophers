@@ -17,10 +17,10 @@ public class Philosopher extends Thread {
     public static final String [] names = {"Aristotle", "Plato", "Epicurus", "Confucius", "Descartes"};
     public static int[][] coordinates = {
             {200, 10},
-            {400, 200},
-            {300, 400},
-            {100, 400},
-            {0, 200}
+            {390, 160},
+            {300, 380},
+            {100, 380},
+            {0, 160}
     };
     public Philosopher(String name) {
         super(name);
@@ -46,7 +46,7 @@ public class Philosopher extends Thread {
                     System.out.println(getName() + " is EATING");
                     CurrentState = PhilosopherState.EATING;
 
-                    Thread.sleep(10_000);
+                    Thread.sleep(4_000);
                     System.out.println(getName() + " has put left fork");
                 }
                 System.out.println(getName() + " has put left fork");
