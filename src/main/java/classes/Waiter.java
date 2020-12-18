@@ -1,31 +1,40 @@
 package classes;
 
-import lombok.AllArgsConstructor;
+
+import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+
 import java.util.List;
 
-@AllArgsConstructor
+
+@NoArgsConstructor
 public class Waiter extends Thread {
-    private List<Philosopher> guests;
+    private List<? extends Thread> guests;
 
 
     @Override
+    @SneakyThrows
     public void run() {
         this.setName("Waiter");
-        this.handOutCutlery();
+        this.guests = ResourceHierarchyPhilosopher.philosophersFactory();
+        guests.forEach(Thread::start);
 
-        guests.forEach(Philosopher::start);
-    }
+        JavaFXManager.getInstance().makeInterrupt("Next", guests);
 
-    private void handOutCutlery() {
-        for (int i = 0; i < guests.size(); i++) {
-            Fork fork = new Fork(i);
-            guests.get(i).setFirstFork(fork);
-            guests.get((i+1) % guests.size()).setSecondFork(fork);
+        Object o = new Object();
+
+        synchronized (JavaFXManager.getInstance()) {
+            JavaFXManager.getInstance().wait();
         }
-    }
 
-    private boolean isAnyEating() {
-        return guests.stream().anyMatch(Thread::isAlive);
-    }
 
+        //join threads
+
+
+        this.guests = SimplePhilosopher.philosophersFactory();
+        guests.forEach(Thread::start);
+        System.out.println("!!!!!!!!!!!!!!");
+
+
+    }
 }

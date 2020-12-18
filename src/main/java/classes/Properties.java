@@ -15,8 +15,8 @@ public class Properties {
     };
     public static final double BRIGHT = 1.0;
     public static final double PALE = 0.3;
-    static final int TIME_TO_EAT = 6000;
-    static final int TIME_TO_THINK = 4000;
+    static final int TIME_TO_EAT = 2000;
+    static final int TIME_TO_THINK = 2000;
 
 
     static final int TABLE_SIZE = 285;

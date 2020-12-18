@@ -6,26 +6,35 @@ import lombok.extern.log4j.Log4j;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-@Log4j
+import static classes.Properties.*;
+
+
 @Data
+@Log4j
 @EqualsAndHashCode(callSuper = true)
-public class Philosopher extends Thread {
+public class ResourceHierarchyPhilosopher extends Thread {
 
-    private Fork firstFork;  //left fork
-    private Fork secondFork; //right fork
+    protected Fork firstFork;  //left fork
+    protected Fork secondFork; //right fork
 
-    Random random = new Random();
 
-    private Philosopher(String name) {
+    public ResourceHierarchyPhilosopher(String name) {
         super(name);
     }
 
-    public static List<Philosopher> philosophersFactory() {
-        return Arrays.stream(Properties.PHILOSOPHERS_NAMES).map(Philosopher::new).collect(Collectors.toList());
+    public static List<ResourceHierarchyPhilosopher> philosophersFactory() {
+        List<ResourceHierarchyPhilosopher> guests = Arrays.stream(PHILOSOPHERS_NAMES).map(ResourceHierarchyPhilosopher::new).collect(Collectors.toList());
+        for (int i = 0; i < guests.size(); i++) {
+            Fork fork = new Fork(i);
+            guests.get(i).setFirstFork(fork);
+            guests.get((i+1) % guests.size()).setSecondFork(fork);
+        }
+        return guests;
     }
+
 
     @Override
     public void run() {
@@ -36,22 +45,26 @@ public class Philosopher extends Thread {
                     firstFork = secondFork;
                     secondFork = temp;
                 }
-                Thread.sleep(random.nextInt(1000));
                 synchronized (firstFork) {
                     log.info(getName() + " has taken left fork");
                     synchronized (secondFork) {
                         JavaFXManager.getInstance().setOpacity(this.getName(), Properties.BRIGHT);
                         log.info(getName() + " has taken right fork");
                         log.info(getName() + " is EATING");
-                        Thread.sleep(random.nextInt(Properties.TIME_TO_EAT) + 1000);
+                        Thread.sleep(ThreadLocalRandom.current().nextInt(1000, TIME_TO_EAT));
+                        log.info(getName() + " has put right fork");
                         JavaFXManager.getInstance().setOpacity(this.getName(), Properties.PALE);
                     }
                     log.info(getName() + " has put left fork");
                 }
-                Thread.sleep(random.nextInt(Properties.TIME_TO_THINK) + 1000);
+                Thread.sleep(ThreadLocalRandom.current().nextInt(1000, TIME_TO_THINK));
             }
         } catch (InterruptedException e) {
+            JavaFXManager.getInstance().setOpacity(this.getName(), Properties.BRIGHT);
             log.error("Error during " + getName(), e);
+            synchronized (JavaFXManager.getInstance()) {
+                JavaFXManager.getInstance().notifyAll();
+            }
         }
     }
 }

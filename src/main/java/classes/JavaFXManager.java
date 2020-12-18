@@ -2,6 +2,7 @@ package classes;
 
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.paint.Color;
@@ -13,6 +14,7 @@ import lombok.extern.log4j.Log4j;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import static classes.Properties.*;
 
@@ -40,10 +42,24 @@ public class JavaFXManager {
         this.root = new Group(drawPhilosophers());
         root.getChildren().add(drawTable());
         stage.setTitle(TITLE);
+
+        Button button = new Button("Next");
+        button.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
+        button.setId("Next");
+        root.getChildren().add(button);
+
+
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         scene.setFill(Color.WHEAT);
         stage.setScene(scene);
         stage.show();
+    }
+
+    public void makeInterrupt(String buttonId, List<? extends Thread> threads) {
+        root.getChildren().filtered(e -> e.getId() == buttonId)
+                .get(0).setOnMousePressed(e -> {
+            threads.forEach(Thread::interrupt);
+        });
     }
 
     private ImageView[] drawPhilosophers() {

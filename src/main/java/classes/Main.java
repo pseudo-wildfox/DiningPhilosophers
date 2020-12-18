@@ -10,7 +10,7 @@ import org.apache.log4j.BasicConfigurator;
 
 
 public class Main extends Application {
-    private static Waiter waiter = new Waiter(Philosopher.philosophersFactory());
+    private static Waiter waiter = new Waiter();
 
     @Override
     public void start(Stage primaryStage) {
