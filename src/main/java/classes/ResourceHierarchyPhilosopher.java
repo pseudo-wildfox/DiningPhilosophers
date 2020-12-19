@@ -48,23 +48,21 @@ public class ResourceHierarchyPhilosopher extends Thread {
                 synchronized (firstFork) {
                     log.info(getName() + " has taken left fork");
                     synchronized (secondFork) {
-                        JavaFXManager.getInstance().setOpacity(this.getName(), Properties.BRIGHT);
+                        JavaFXManager.getInstance().setOpacity(this.getName(), BRIGHT);
                         log.info(getName() + " has taken right fork");
                         log.info(getName() + " is EATING");
                         Thread.sleep(ThreadLocalRandom.current().nextInt(1000, TIME_TO_EAT));
                         log.info(getName() + " has put right fork");
-                        JavaFXManager.getInstance().setOpacity(this.getName(), Properties.PALE);
+                        JavaFXManager.getInstance().setOpacity(this.getName(), PALE);
                     }
                     log.info(getName() + " has put left fork");
                 }
                 Thread.sleep(ThreadLocalRandom.current().nextInt(1000, TIME_TO_THINK));
             }
         } catch (InterruptedException e) {
-            JavaFXManager.getInstance().setOpacity(this.getName(), Properties.BRIGHT);
-            log.error("Error during " + getName(), e);
-            synchronized (JavaFXManager.getInstance()) {
-                JavaFXManager.getInstance().notifyAll();
-            }
+            log.info("Error during " + getName(), e);
+        } finally {
+            JavaFXManager.getInstance().setOpacity(this.getName(), PALE);
         }
     }
 }
