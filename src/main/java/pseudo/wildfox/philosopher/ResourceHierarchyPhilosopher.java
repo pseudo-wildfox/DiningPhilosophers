@@ -1,15 +1,17 @@
-package classes;
+package pseudo.wildfox.philosopher;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.log4j.Log4j;
+import pseudo.wildfox.Fork;
+import pseudo.wildfox.services.JavaFXManager;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.stream.Collectors;
 
-import static classes.Properties.*;
+import static pseudo.wildfox.Properties.*;
 
 
 @Data
@@ -21,7 +23,7 @@ public class ResourceHierarchyPhilosopher extends Thread {
     protected Fork secondFork; //right fork
 
 
-    public ResourceHierarchyPhilosopher(String name) {
+    private ResourceHierarchyPhilosopher(String name) {
         super(name);
     }
 

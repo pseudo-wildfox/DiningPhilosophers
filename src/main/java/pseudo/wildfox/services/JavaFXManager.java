@@ -1,6 +1,7 @@
-package classes;
+package pseudo.wildfox.services;
 
 import javafx.scene.Group;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
@@ -16,7 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
-import static classes.Properties.*;
+import static pseudo.wildfox.Properties.*;
 
 
 @Log4j
@@ -56,10 +57,13 @@ public class JavaFXManager {
     }
 
     public void makeInterrupt(String buttonId, List<? extends Thread> threads) {
-        root.getChildren().filtered(e -> e.getId() == buttonId)
-                .get(0).setOnMousePressed(e -> {
-            threads.forEach(Thread::interrupt);
-        });
+        Node button = root.getChildren().filtered(e -> e.getId() == buttonId).get(0);
+        button.setOnMousePressed(e -> threads.forEach(Thread::interrupt));
+    }
+
+    public void makeStopProgram(String buttonId) {
+        Node button = root.getChildren().filtered(e -> e.getId() == buttonId).get(0);
+        button.setOnMousePressed(e -> System.exit(0));
     }
 
     private ImageView[] drawPhilosophers() {
