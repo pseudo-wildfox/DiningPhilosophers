@@ -44,11 +44,10 @@ public class JavaFXManager {
         root.getChildren().add(drawTable());
         stage.setTitle(TITLE);
 
-        Button button = new Button("Next");
+        Button button = new Button(BUTTON_NAME);
         button.setStyle("-fx-font: 22 arial; -fx-base: #b6e7c9;");
-        button.setId("Next");
+        button.setId(BUTTON_NAME);
         root.getChildren().add(button);
-
 
         Scene scene = new Scene(root, SCENE_WIDTH, SCENE_HEIGHT);
         scene.setFill(Color.WHEAT);

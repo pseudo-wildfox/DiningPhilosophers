@@ -8,6 +8,8 @@ import pseudo.wildfox.philosopher.ResourceHierarchyPhilosopher;
 
 import java.util.List;
 
+import static pseudo.wildfox.Properties.BUTTON_NAME;
+
 @Log4j
 public class DinnerInvitation extends Thread {
     public DinnerInvitation() {
@@ -19,7 +21,7 @@ public class DinnerInvitation extends Thread {
     public void run() {
         List<? extends Thread> guests;
         guests = ResourceHierarchyPhilosopher.philosophersFactory();
-        JavaFXManager.getInstance().makeInterrupt("Next", guests);
+        JavaFXManager.getInstance().makeInterrupt(BUTTON_NAME, guests);
         guests.forEach(Thread::start);
 
         guests.get(0).join();
@@ -28,7 +30,7 @@ public class DinnerInvitation extends Thread {
 
         guests = LitePhilosopher.philosophersFactory();
         List<? extends Thread> waiters = Waiter.createWaiters(guests);
-        JavaFXManager.getInstance().makeInterrupt("Next", waiters);
+        JavaFXManager.getInstance().makeInterrupt(BUTTON_NAME, waiters);
         waiters.forEach(Thread::start);
     }
 

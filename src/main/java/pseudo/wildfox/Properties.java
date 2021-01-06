@@ -5,6 +5,8 @@ public class Properties {
     public static final int SCENE_WIDTH = 500;
     public static final int SCENE_HEIGHT = 500;
 
+    public static final String BUTTON_NAME = "Next";
+
     public static final String [] PHILOSOPHERS_NAMES = {"Aristotle", "Plato", "Epicurus", "Socrates", "Descartes"};
     public static final int[][] COORDINATES = {
             {200, 10},

@@ -19,8 +19,8 @@ import static pseudo.wildfox.Properties.*;
 @EqualsAndHashCode(callSuper = true)
 public class ResourceHierarchyPhilosopher extends Thread {
 
-    protected Fork firstFork;  //left fork
-    protected Fork secondFork; //right fork
+    private Fork firstFork;  //left fork
+    private Fork secondFork; //right fork
 
 
     private ResourceHierarchyPhilosopher(String name) {
@@ -41,12 +41,12 @@ public class ResourceHierarchyPhilosopher extends Thread {
     @Override
     public void run() {
         try {
+            if (firstFork.getId() < secondFork.getId()) {
+                Fork temp = firstFork;
+                firstFork = secondFork;
+                secondFork = temp;
+            }
             while (this.isAlive()) {
-                if (firstFork.getId() < secondFork.getId()) {
-                    Fork temp = firstFork;
-                    firstFork = secondFork;
-                    secondFork = temp;
-                }
                 synchronized (firstFork) {
                     log.info(getName() + " has taken left fork");
                     synchronized (secondFork) {
